@@ -56,18 +56,21 @@ public class FinancialTracker {
     }
 
     public static void loadTransactions(String filename) {
+        String line;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
-            String line;
             while((line = bufferedReader.readLine()) != null){
-                System.out.println(line);
                 String[] parts = line.split("\\|");
-                for (String part : parts) {
-                    System.out.println(part);
-                }
+                String date = parts [0];
+                String time = parts [1];
+                String description = parts[2];
+                String vendor = parts [3];
+                double amount = Double.parseDouble(parts[4]);
+                transactions.add(new Transaction(date, time, description, vendor, amount));
+
             }
             bufferedReader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error loading file transactions: " + e.getMessage());
         }
 
@@ -103,7 +106,7 @@ public class FinancialTracker {
         while (running) {
             System.out.println("Ledger");
             System.out.println("Choose an option:");
-            System.out.println("A) A`ll");
+            System.out.println("A) All");
             System.out.println("D) Deposits");
             System.out.println("P) Payments");
             System.out.println("R) Reports");
@@ -134,10 +137,13 @@ public class FinancialTracker {
     }
 
     private static void displayLedger() {
-        // This method should display a table of all transactions in the `transactions` ArrayList.
-        // The table should have columns for date, time, description, vendor, and amount.
-    }
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction + " ");
 
+            // This method should display a table of all transactions in the `transactions` ArrayList.
+            // The table should have columns for date, time, description, vendor, and amount.
+        }
+    }
     private static void displayDeposits() {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.

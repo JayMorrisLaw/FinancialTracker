@@ -1,5 +1,9 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -51,7 +55,23 @@ public class FinancialTracker {
         scanner.close();
     }
 
-    public static void loadTransactions(String fileName) {
+    public static void loadTransactions(String filename) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
+            String line;
+            while((line = bufferedReader.readLine()) != null){
+                System.out.println(line);
+                String[] parts = line.split("\\|");
+                for (String part : parts) {
+                    System.out.println(part);
+                }
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println("Error loading file transactions: " + e.getMessage());
+        }
+
+
         // This method should load transactions from a file with the given file name.
         // If the file does not exist, it should be created.
         // The transactions should be stored in the `transactions` ArrayList.
@@ -185,4 +205,3 @@ public class FinancialTracker {
         // If no transactions match the specified vendor name, the method prints a message indicating that there are no results.
     }
 }
- 

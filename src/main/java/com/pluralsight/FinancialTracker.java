@@ -132,6 +132,9 @@ public class FinancialTracker {
             System.out.println("Enter the amount: ");
             Double amount = scanner.nextDouble();
             scanner.nextLine();
+            if (amount > 0 ){
+                amount = -amount;
+            }
             Transaction transaction = new Transaction(dateInput, timeInput, description, vendor, amount);
             System.out.println("Successful payment! " + transaction);
             transactions.add(transaction);
@@ -177,6 +180,7 @@ public class FinancialTracker {
                     break;
                 case "H":
                     running = false;
+                    break;
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -185,9 +189,16 @@ public class FinancialTracker {
     }
 
     private static void displayLedger() {
-        for (Transaction transaction : transactions) {
-            System.out.println(transaction + " ");
-
+            System.out.printf("%-12s| %-8s |%-20s |%-12s | %9s\n",
+                    "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.println("-----------------------------------------------------------------------");
+            for (Transaction transaction : transactions) {
+                System.out.printf("%-12s| %-8s |%-20s |%-12s | %9.2f\n",
+            transaction.getDate(),
+            transaction.getTime(),
+            transaction.getDescription(),
+            transaction.getVendor(),
+            transaction.getAmount());
             // This method should display a table of all transactions in the `transactions` ArrayList.
             // The table should have columns for date, time, description, vendor, and amount.
         }

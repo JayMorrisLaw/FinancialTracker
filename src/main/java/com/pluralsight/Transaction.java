@@ -10,9 +10,9 @@ private String description;
 private String vendor;
 private double amount;
 
-    public Transaction(String date, String time, String description, String vendor, double amount) {
-        this.date = LocalDate.parse(date);
-        this.time = LocalTime.parse(time);
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
+        this.date = date;
+        this.time = time;
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
@@ -60,7 +60,7 @@ private double amount;
 
     @Override
     public String toString() {
-        return "Transaction: " + "date= " + date + ", time= " + time + ", description= '" + description + '\'' + ", vendor=  " + vendor + '\'' + ", amount= " + amount + '}';
+        return date + "|"  + time + "|" + description + "|" + vendor + "|" + amount + "|";
     }
 }
 

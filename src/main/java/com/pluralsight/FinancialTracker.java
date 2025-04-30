@@ -188,11 +188,11 @@ public class FinancialTracker {
     }
 
     private static void displayLedger() {
-        System.out.printf("%-12s| %-8s |%-20s |%-12s | %9s\n",
+        System.out.printf("%-12s| %-8s |%-25s |%-20s | %9s\n",
                 "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-----------------------------------------------------------------------");
         for (Transaction transaction : transactions) {
-            System.out.printf("%-12s| %-8s |%-20s |%-12s | %9.2f\n",
+            System.out.printf("%-12s| %-8s |%-20s |%-22s | %9.2f\n",
                     transaction.getDate(),
                     transaction.getTime(),
                     transaction.getDescription(),
@@ -204,7 +204,7 @@ public class FinancialTracker {
     }
 
     private static void displayDeposits() {
-        System.out.printf("%-12s| %-8s |%-20s |%-12s | %9s\n",
+        System.out.printf("%-12s| %-8s |%-25s |%-20s | %9s\n",
                 "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-----------------------------------------------------------------------");
         for (Transaction transaction : transactions) {
@@ -222,17 +222,12 @@ public class FinancialTracker {
     }
 
     private static void displayPayments() {
-        System.out.printf("%-12s| %-8s |%-20s |%-12s | %9s\n",
+        System.out.printf("%-12s| %-8s |%-25s |%-20s | %9s\n",
                 "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-----------------------------------------------------------------------");
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0) {
-                System.out.printf("%-12s| %-8s |%-20s |%-12s | %9.2f\n",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getDescription(),
-                        transaction.getVendor(),
-                        transaction.getAmount());
+                System.out.print(transaction);
             }
             // This method should display a table of all deposits in the `transactions` ArrayList.
             // The table should have columns for date, time, description, vendor, and amount.

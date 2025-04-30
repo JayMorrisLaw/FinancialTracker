@@ -58,9 +58,10 @@ private double amount;
         this.amount = amount;
     }
 
+
     @Override
     public String toString() {
-        return date + "|"  + time + "|" + description + "|" + vendor + "|" + amount;
+        return String.format("%-12s| %-8s |%-25s |%-20s | %9.2f\n", date, time, description, vendor, amount);
     }
 }
 

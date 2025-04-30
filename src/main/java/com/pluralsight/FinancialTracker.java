@@ -84,10 +84,10 @@ public class FinancialTracker {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
 
-            System.out.println("Enter the date: ");
+            System.out.println("Enter the date (YYYY-MM-DD) : ");
             String date = scanner.nextLine();
             LocalDate dateInput = LocalDate.parse(date, DATE_FORMATTER);
-            System.out.println("Enter the time: ");
+            System.out.println("Enter the time (HH:MM:SS) : ");
             String time = scanner.nextLine();
             LocalTime timeInput = LocalTime.parse(time, TIME_FORMATTER);
             System.out.println("Enter the description: ");
@@ -118,11 +118,10 @@ public class FinancialTracker {
     private static void addPayment(Scanner scanner) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
-
-            System.out.println("Enter the date: ");
+            System.out.println("Enter the date (YYYY-MM-DD) : ");
             String date = scanner.nextLine();
             LocalDate dateInput = LocalDate.parse(date, DATE_FORMATTER);
-            System.out.println("Enter the time: ");
+            System.out.println("Enter the time (HH:MM:SS) : ");
             String time = scanner.nextLine();
             LocalTime timeInput = LocalTime.parse(time, TIME_FORMATTER);
             System.out.println("Enter the description: ");
@@ -223,12 +222,11 @@ public class FinancialTracker {
     }
 
     private static void displayPayments() {
-
         System.out.printf("%-12s| %-8s |%-20s |%-12s | %9s\n",
                 "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-----------------------------------------------------------------------");
         for (Transaction transaction : transactions) {
-            if (transaction.getAmount() < 0 ) {
+            if (transaction.getAmount() < 0) {
                 System.out.printf("%-12s| %-8s |%-20s |%-12s | %9.2f\n",
                         transaction.getDate(),
                         transaction.getTime(),
@@ -287,6 +285,20 @@ public class FinancialTracker {
 
 
     private static void filterTransactionsByDate(LocalDate startDate, LocalDate endDate) {
+
+         boolean found = false;
+
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = transaction.getDate();
+            if ((transactionDate.equals(startDate) || transactionDate.isAfter(startDate)) &&
+            (transactionDate.equals(endDate) || transactionDate.isBefore(endDate))){
+                System.out.println(transaction);
+                found = true;
+            }
+        }
+        if (!found){
+            System.out.println("No transactions found ");
+        }
         // This method filters the transactions by date and prints a report to the console.
         // It takes two parameters: startDate and endDate, which represent the range of dates to filter by.
         // The method loops through the transactions list and checks each transaction's date against the date range.
@@ -295,6 +307,8 @@ public class FinancialTracker {
     }
 
     private static void filterTransactionsByVendor(String vendor) {
+
+
         // This method filters the transactions by vendor and prints a report to the console.
         // It takes one parameter: vendor, which represents the name of the vendor to filter by.
         // The method loops through the transactions list and checks each transaction's vendor name against the specified vendor name.

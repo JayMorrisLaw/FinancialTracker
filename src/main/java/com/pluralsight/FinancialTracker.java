@@ -342,7 +342,6 @@ public class FinancialTracker {
         }
 
     }
-
     private static void filterTransactionsByVendor(String vendor) {
         boolean found = false;
         for (Transaction transaction : transactions) {

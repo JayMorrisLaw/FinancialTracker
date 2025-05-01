@@ -103,7 +103,7 @@ public class FinancialTracker {
             System.out.println("Enter the vendor: ");
             String vendor = scanner.nextLine();
             System.out.println("Enter the amount: ");
-            Double amount = scanner.nextDouble();
+            double amount = scanner.nextDouble();
             scanner.nextLine();
             Transaction transaction = new Transaction(dateInput, timeInput, description, vendor, amount);
             // creates a transaction based off user entry
@@ -137,7 +137,7 @@ public class FinancialTracker {
             System.out.println("Enter the vendor: ");
             String vendor = scanner.nextLine();
             System.out.println("Enter the amount: ");
-            Double amount = scanner.nextDouble();
+            double amount = scanner.nextDouble();
             scanner.nextLine();
             if (amount > 0) {
                 amount = -amount;
@@ -152,7 +152,7 @@ public class FinancialTracker {
             bufferedWriter.close();
 
         } catch (Exception e) {
-            System.out.println("error has occured");
+            System.out.println("error has occurred");
         }
     }
 

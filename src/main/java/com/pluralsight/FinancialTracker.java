@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FinancialTracker {
-
+//using an array list so it can grow or be changed as needed, final keeps the constants from being edited accidentally
+    // also using dateTime formatter to correctly format and parse string dates to LocalDate/Time
     private static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private static final String FILE_NAME = "transactions.csv";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -22,15 +23,17 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
+            // displaying a menu and prompting/waiting for user input
             System.out.println("Welcome to TransactionApp");
             System.out.println("Choose an option:");
             System.out.println("D) Add Deposit");
             System.out.println("P) Make Payment (Debit)");
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
-
+            // depending on the input from the user itll call a specific method (addDeposit or paayment etc)
             String input = scanner.nextLine().trim();
-
+            // using switch case to check for different options
+            // the toUppercase makes it so that D or d will work regardless of its case
             switch (input.toUpperCase()) {
                 case "D":
                     addDeposit(scanner);
@@ -47,6 +50,7 @@ public class FinancialTracker {
                 default:
                     System.out.println("Invalid option");
                     break;
+                    // break allows you to exit the while loop early
             }
         }
 
@@ -57,36 +61,40 @@ public class FinancialTracker {
         String line;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+            // using a buffered reader to read from the file line by line, filereader opens the file
             while ((line = bufferedReader.readLine()) != null) {
+                // this while loop uses buffered reader to read lines until there are no more (null)
                 String[] parts = line.split("\\|");
+                // splits the lines into parts where the | is
                 LocalDate date = LocalDate.parse(parts[0]);
                 LocalTime time = LocalTime.parse(parts[1]);
                 String description = parts[2];
                 String vendor = parts[3];
                 double amount = Double.parseDouble(parts[4]);
+                // parsing LocalDate time and double makes sure each vaule is the right data type
                 transactions.add(new Transaction(date, time, description, vendor, amount));
+                // adds a new transaction object with the parts we just got
             }
             bufferedReader.close();
+            // closes after were done reading
         } catch (Exception e) {
+            // catches errors
             System.out.println("Error loading file transactions: ");
+            // this method opens reads and splits the file into different lines and turns the text into an object
+
         }
-        // This method should load transactions from a file with the given file name.
-        // If the file does not exist, it should be created.
-        // The transactions should be stored in the `transactions` ArrayList.
-        // Each line of the file represents a single transaction in the following format:
-        // <date>|<time>|<description>|<vendor>|<amount>
-        // For example: 2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
-        // After reading all the transactions, the file should be closed.
-        // If any errors occur, an appropriate error message should be displayed.
+
     }
 
     private static void addDeposit(Scanner scanner) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
-
+           // using buffered writer to write to file
             System.out.println("Enter the date (YYYY-MM-DD) : ");
             String date = scanner.nextLine();
+            // prompts the user to enter the date in the correct format
             LocalDate dateInput = LocalDate.parse(date, DATE_FORMATTER);
+            // parse converts the string into a localdate object
             System.out.println("Enter the time (HH:MM:SS) : ");
             String time = scanner.nextLine();
             LocalTime timeInput = LocalTime.parse(time, TIME_FORMATTER);
@@ -98,29 +106,29 @@ public class FinancialTracker {
             Double amount = scanner.nextDouble();
             scanner.nextLine();
             Transaction transaction = new Transaction(dateInput, timeInput, description, vendor, amount);
+            // creates a transaction based off user entry
             System.out.println("Successfully added deposit! " + transaction);
             transactions.add(transaction);
             bufferedWriter.write(transaction.toString());
             bufferedWriter.newLine();
             bufferedWriter.close();
+            // closes file
 
         } catch (Exception e) {
             System.out.println("error has occured");
         }
 
-        // This method should prompt the user to enter the date, time, description, vendor, and amount of a deposit.
-        // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
-        // The amount should be a positive number.
-        // After validating the input, a new `Transaction` object should be created with the entered values.
-        // The new deposit should be added to the `transactions` ArrayList.
     }
 
     private static void addPayment(Scanner scanner) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+            // opens the file and appends to it
             System.out.println("Enter the date (YYYY-MM-DD) : ");
             String date = scanner.nextLine();
+            // prmpting user to enter what theyre asked in the correct format using the scanner
             LocalDate dateInput = LocalDate.parse(date, DATE_FORMATTER);
+            // date formatter makes sure the date is formatted correctly
             System.out.println("Enter the time (HH:MM:SS) : ");
             String time = scanner.nextLine();
             LocalTime timeInput = LocalTime.parse(time, TIME_FORMATTER);
@@ -133,8 +141,10 @@ public class FinancialTracker {
             scanner.nextLine();
             if (amount > 0) {
                 amount = -amount;
+                // using an if statement to filp the entered amount into a negative number because we are making payments
             }
             Transaction transaction = new Transaction(dateInput, timeInput, description, vendor, amount);
+            // makes new transaction based off user entry 
             System.out.println("Successful payment! " + transaction);
             transactions.add(transaction);
             bufferedWriter.write(transaction.toString());
@@ -296,7 +306,6 @@ public class FinancialTracker {
                 case "0":
                     running = false;
                 default:
-                    System.out.println("Invalid option");
                     break;
             }
         }
